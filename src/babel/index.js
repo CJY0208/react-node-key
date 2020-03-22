@@ -84,7 +84,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
             try {
               return (
                 attr.type !== 'JSXAttribute' ||
-                jsxHelpers.propName(attr) !== '_nk'
+                ['nodeKeyIgnore', '_nk'].includes(jsxHelpers.propName(attr))
               )
             } catch (error) {
               return true
