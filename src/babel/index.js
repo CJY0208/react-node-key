@@ -70,11 +70,6 @@ module.exports = function({ types: t, template, env: getEnv }) {
             'nodeKeyIgnore'
           )
 
-          // 排除 ignore 项
-          if (nodeKeyIgnore) {
-            return
-          }
-
           const isArrayElement = node.__isArrayElement
 
           // 不允许自定义 _nk 属性
@@ -84,7 +79,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
             try {
               return (
                 attr.type !== 'JSXAttribute' ||
-                ['nodeKeyIgnore', '_nk'].includes(jsxHelpers.propName(attr))
+                !['nodeKeyIgnore', '_nk'].includes(jsxHelpers.propName(attr))
               )
             } catch (error) {
               return true
@@ -94,10 +89,12 @@ module.exports = function({ types: t, template, env: getEnv }) {
           const uuidName =
             env !== 'production' || isArrayElement || hasKey ? '_nk' : 'key'
 
-          node.attributes = [
-            ...attributes,
-            jSXAttribute(jSXIdentifier(uuidName), genUUID(node))
-          ]
+          node.attributes = nodeKeyIgnore
+            ? attributes
+            : [
+                ...attributes,
+                jSXAttribute(jSXIdentifier(uuidName), genUUID(node))
+              ]
         }
       }
     }

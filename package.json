@@ -1,6 +1,6 @@
 {
   "name": "react-node-key",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Automatic key-marked for React nodes, generate an unique identifier by render location",
   "main": "index.js",
   "scripts": {
