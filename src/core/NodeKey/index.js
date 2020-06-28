@@ -1,16 +1,21 @@
 import { Component } from 'react'
 
-import { run } from '../../helpers'
-
 import getKeyByFiberNode from './getKeyByFiberNode'
 import getKeyByPreactNode from './getKeyByPreactNode'
 
+const run = require('szfe-tools/lib/run').default
+
 let type
 
-// 根据 FiberNode 所处位置来确定 NodeKey
+// 根据 FiberNode 所处位置来确定 nodeKey
 export default class NodeKey extends Component {
+  static defaultProps = {
+    onHandleNode: undefined,
+    prefix: '',
+  }
+
   key = null
-  genKey = () => {
+  genKey = (onHandleNode) => {
     if (!type) {
       if (this._reactInternalFiber) {
         type = 'React'
@@ -24,11 +29,11 @@ export default class NodeKey extends Component {
 
     switch (type) {
       case 'Preact': {
-        this.key = getKeyByPreactNode(this.__v)
+        this.key = getKeyByPreactNode(this.__v, onHandleNode)
         break
       }
       case 'React': {
-        this.key = getKeyByFiberNode(this._reactInternalFiber)
+        this.key = getKeyByFiberNode(this._reactInternalFiber, onHandleNode)
         break
       }
       default: {
@@ -40,8 +45,12 @@ export default class NodeKey extends Component {
   }
 
   render() {
-    const { children, prefix = '' } = this.props
+    const { children, prefix, onHandleNode } = this.props
 
-    return run(children, undefined, `${prefix}${this.key || this.genKey()}`)
+    return run(
+      children,
+      undefined,
+      `${prefix}${this.key || this.genKey(onHandleNode)}`
+    )
   }
 }

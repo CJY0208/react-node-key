@@ -2,14 +2,11 @@
 
 const crypto = require('crypto')
 const jsxHelpers = require('jsx-ast-utils')
-const {
-  get,
-  getKey2Id,
-  isFunction,
-  callExpressionVisitor
-} = require('./helpers')
+const isFunction = require('szfe-tools/lib/isFunction').default
+const get = require('szfe-tools/lib/get').default
+const { getKey2Id, callExpressionVisitor } = require('./helpers')
 
-module.exports = function({ types: t, template, env: getEnv }) {
+module.exports = function ({ types: t, template, env: getEnv }) {
   // 7.x https://github.com/babel/babel/blob/master/babel.config.js#L4
   // 6.x https://github.com/babel/babel/blob/6.x/packages/babel-core/src/transformation/file/options/build-config-chain.js#L165
   // 尝试从 env 函数或 process 中获取当前 babel 环境
@@ -44,7 +41,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
           t.templateLiteral(
             [
               t.templateElement({ raw: rawStart, cooked: rawStart }),
-              t.templateElement({ raw: nodeId, cooked: nodeId }, true)
+              t.templateElement({ raw: nodeId, cooked: nodeId }, true),
             ],
             [filehashIdentifier]
           )
@@ -75,7 +72,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
           // 不允许自定义 _nk 属性
           // DONE: 使用 key 属性替换，需考虑不覆盖 array 结构中的 key 属性，array 结构中保持 _nk 属性
           // 可参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/lib/rules/jsx-key.js
-          const attributes = node.attributes.filter(attr => {
+          const attributes = node.attributes.filter((attr) => {
             try {
               return (
                 attr.type !== 'JSXAttribute' ||
@@ -93,10 +90,10 @@ module.exports = function({ types: t, template, env: getEnv }) {
             ? attributes
             : [
                 ...attributes,
-                jSXAttribute(jSXIdentifier(uuidName), genUUID(node))
+                jSXAttribute(jSXIdentifier(uuidName), genUUID(node)),
               ]
-        }
-      }
+        },
+      },
     }
   }
 
@@ -121,7 +118,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
             filehashTemplate = template(`const %%filehash%% = %%hashString%%;`)(
               {
                 filehash: filehashIdentifier,
-                hashString: t.stringLiteral(hash)
+                hashString: t.stringLiteral(hash),
               }
             )
           } catch (error) {
@@ -130,7 +127,7 @@ module.exports = function({ types: t, template, env: getEnv }) {
             )()
           }
 
-          const imports = path.node.body.filter(node =>
+          const imports = path.node.body.filter((node) =>
             t.isImportDeclaration(node)
           )
 
@@ -148,8 +145,8 @@ module.exports = function({ types: t, template, env: getEnv }) {
           }
           path.traverse(callExpressionVisitor)
           path.traverse(getElementVisitor(filehashIdentifier))
-        }
-      }
-    }
+        },
+      },
+    },
   }
 }

@@ -1,4 +1,7 @@
-import { get, isString, getKey2Id } from '../../helpers'
+import { getKey2Id } from '../../helpers'
+
+const isString = require('szfe-tools/lib/isString').default
+const get = require('szfe-tools/lib/get').default
 
 const isArrReg = /^iAr/
 
@@ -6,11 +9,11 @@ const isArrReg = /^iAr/
 const key2Id = getKey2Id()
 
 // 获取节点的渲染路径，作为节点的 X 坐标
-const genRenderPath = node =>
+const genRenderPath = (node) =>
   node.__ ? [node, ...genRenderPath(node.__)] : [node]
 
 // 使用节点 _nk 属性或下标与其 key/index 作为 Y 坐标
-const getNodeId = node => {
+const getNodeId = (node) => {
   // FIXME: Preact 无 index 属性，无 key 与 _nk 之下 Y 坐标不可靠，待修正
   const id = get(node, 'key') || node.index
   const nodeKey = get(node, 'props._nk')
@@ -19,19 +22,19 @@ const getNodeId = node => {
   return isArray ? `${nodeKey}.${id}` : nodeKey || id
 }
 
+const defaultNodeHandler = (node) => {
+  const x = key2Id(node.type)
+  const y = getNodeId(node)
+
+  return `${x},${y}`
+}
+
 // 根据 X,Y 坐标生成 Key
-const getKeyByCoord = nodes =>
-  nodes
-    .map(node => {
-      const x = key2Id(node.type)
-      const y = getNodeId(node)
+const getKeyByCoord = (nodes, handleNode) =>
+  nodes.map(handleNode).filter(Boolean).join('|')
 
-      return `${x},${y}`
-    })
-    .join('|')
-
-const getKeyByNode = node => {
-  const key = getKeyByCoord(genRenderPath(node))
+const getKeyByNode = (node, handleNode = defaultNodeHandler) => {
+  const key = getKeyByCoord(genRenderPath(node), handleNode)
 
   return key2Id(key)
 }

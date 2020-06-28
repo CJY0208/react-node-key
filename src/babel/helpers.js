@@ -1,23 +1,7 @@
-const isUndefined = val => typeof val === 'undefined'
-const isNull = val => val === null
-const isString = val => typeof val === 'string'
-const isExist = val => !(isUndefined(val) || isNull(val))
-const isNumber = val => typeof val === 'number' && !isNaN(val)
-const isFunction = val => typeof val === 'function'
-const get = (obj, keys = [], defaultValue) => {
-  try {
-    if (isNumber(keys)) {
-      keys = String(keys)
-    }
-    let result = (isString(keys) ? keys.split('.') : keys).reduce(
-      (res, key) => res[key],
-      obj
-    )
-    return isUndefined(result) ? defaultValue : result
-  } catch (e) {
-    return defaultValue
-  }
-}
+const isExist = require('szfe-tools/lib/isExist').default
+const isFunction = require('szfe-tools/lib/isFunction').default
+const get = require('szfe-tools/lib/get').default
+
 function getKey2Id() {
   let uuid = 0
   const map = new Map()
@@ -42,7 +26,7 @@ function markIsArrayElement(node) {
 }
 
 function getReturnStatement(body) {
-  return body.filter(item => item.type === 'ReturnStatement')[0]
+  return body.filter((item) => item.type === 'ReturnStatement')[0]
 }
 
 // 参考 eslint-plugin-react 对数组 key 的校验过程，来标记数组元素
@@ -76,12 +60,12 @@ const callExpressionVisitor = {
         }
       }
     }
-  }
+  },
 }
 
 module.exports = {
   get,
   isFunction,
   callExpressionVisitor,
-  getKey2Id
+  getKey2Id,
 }

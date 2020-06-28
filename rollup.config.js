@@ -10,16 +10,18 @@ export default [
       file: 'lib/index.min.js',
       format: 'umd',
       name: 'ReactNodeKey',
-      exports: 'named'
+      exports: 'named',
     },
-    external: ['react'],
+    external: (name) =>
+      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
     plugins: [
       resolve(),
       babel({
-        exclude: 'node_modules/**'
+        exclude: 'node_modules/**',
       }),
-      uglify()
-    ]
+      commonjs(),
+      uglify(),
+    ],
   },
   {
     input: 'src/index.js',
@@ -27,26 +29,28 @@ export default [
       file: 'lib/index.js',
       format: 'cjs',
       exports: 'named',
-      sourcemap: true
+      sourcemap: true,
     },
-    external: ['react'],
+    external: (name) =>
+      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
     plugins: [
       resolve(),
       babel({
-        exclude: 'node_modules/**'
-      })
-    ]
+        exclude: 'node_modules/**',
+      }),
+      commonjs(),
+    ],
   },
   {
     input: 'src/babel/index.js',
     output: {
       file: 'lib/babel/index.js',
-      format: 'cjs'
+      format: 'cjs',
     },
-    external: ['jsx-ast-utils'],
+    external: (name) =>
+      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
     plugins: [
       resolve(),
-      commonjs(),
       babel({
         babelrc: false,
         presets: [
@@ -54,13 +58,16 @@ export default [
             '@babel/env',
             {
               targets: {
-                node: true
-              }
-            }
-          ]
+                node: true,
+              },
+            },
+          ],
         ],
-        exclude: 'node_modules/**'
-      })
-    ]
-  }
+        exclude: 'node_modules/**',
+      }),
+      commonjs({
+        exclude: 'node_modules/**',
+      }),
+    ],
+  },
 ]
