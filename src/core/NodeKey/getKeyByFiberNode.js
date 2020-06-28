@@ -1,6 +1,7 @@
 import { getKey2Id } from '../../helpers'
 
 const isString = require('szfe-tools/lib/isString').default
+const isFunction = require('szfe-tools/lib/isFunction').default
 const get = require('szfe-tools/lib/get').default
 
 const isArrReg = /^iAr/
@@ -22,7 +23,7 @@ const getNodeId = (fiberNode) => {
   return isArray ? `${nodeKey}.${id}` : nodeKey || id
 }
 
-const defaultNodeHandler = (node) => {
+const markNode = (node) => {
   const x = key2Id(get(node, 'type.$$typeof', node.type))
   const y = getNodeId(node)
 
@@ -31,7 +32,16 @@ const defaultNodeHandler = (node) => {
 
 // 根据 X,Y 坐标生成 Key
 const getKeyByCoord = (nodes, handleNode) =>
-  nodes.map(handleNode).filter(Boolean).join('|')
+  nodes
+    .map((node) => {
+      const mark = markNode(node)
+
+      return isFunction(handleNode)
+        ? run(handleNode, undefined, node, mark)
+        : mark
+    })
+    .filter(Boolean)
+    .join('|')
 
 const getKeyByFiberNode = (fiberNode, handleNode = defaultNodeHandler) => {
   const key = getKeyByCoord(genRenderPath(fiberNode), handleNode)
