@@ -47,8 +47,7 @@ export default [
       file: 'lib/babel/index.js',
       format: 'cjs',
     },
-    external: (name) =>
-      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
+    external: (name) => name === 'jsx-ast-utils' || /szfe-tools/.test(name),
     plugins: [
       resolve(),
       babel({
@@ -65,9 +64,7 @@ export default [
         ],
         exclude: 'node_modules/**',
       }),
-      commonjs({
-        exclude: 'node_modules/**',
-      }),
+      commonjs(),
     ],
   },
 ]
