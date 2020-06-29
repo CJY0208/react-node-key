@@ -41,30 +41,4 @@ export default [
       commonjs(),
     ],
   },
-  {
-    input: 'src/babel/index.js',
-    output: {
-      file: 'lib/babel/index.js',
-      format: 'cjs',
-    },
-    external: (name) => name === 'jsx-ast-utils' || /szfe-tools/.test(name),
-    plugins: [
-      resolve(),
-      babel({
-        babelrc: false,
-        presets: [
-          [
-            '@babel/env',
-            {
-              targets: {
-                node: true,
-              },
-            },
-          ],
-        ],
-        exclude: 'node_modules/**',
-      }),
-      commonjs(),
-    ],
-  },
 ]

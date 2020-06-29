@@ -10,5 +10,15 @@ module.exports = {
     ],
     '@babel/react',
   ],
-  plugins: ['@babel/plugin-proposal-class-properties', './src/babel'],
+  plugins: [
+    '@babel/plugin-proposal-class-properties',
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'szfe-tools',
+        camel2DashComponentName: false,
+      },
+    ],
+    './babel',
+  ],
 }

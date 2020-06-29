@@ -1,9 +1,8 @@
 import { Component } from 'react'
+import { run } from 'szfe-tools'
 
 import getKeyByFiberNode from './getKeyByFiberNode'
 import getKeyByPreactNode from './getKeyByPreactNode'
-
-const run = require('szfe-tools/lib/run').default
 
 let type
 

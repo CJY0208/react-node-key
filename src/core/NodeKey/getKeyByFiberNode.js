@@ -1,8 +1,5 @@
 import { getKey2Id } from '../../helpers'
-
-const isString = require('szfe-tools/lib/isString').default
-const isFunction = require('szfe-tools/lib/isFunction').default
-const get = require('szfe-tools/lib/get').default
+import { isString, isFunction, get } from 'szfe-tools'
 
 const isArrReg = /^iAr/
 
