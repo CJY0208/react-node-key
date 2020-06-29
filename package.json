@@ -27,6 +27,7 @@
   "files": [
     "lib",
     "babel",
+    "index.d.ts",
     "index.js",
     "package.json",
     "README.md"
