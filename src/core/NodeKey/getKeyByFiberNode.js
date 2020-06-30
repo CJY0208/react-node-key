@@ -40,7 +40,7 @@ const getKeyByCoord = (nodes, handleNode) =>
     .filter(Boolean)
     .join('|')
 
-const getKeyByFiberNode = (fiberNode, handleNode = defaultNodeHandler) => {
+const getKeyByFiberNode = (fiberNode, handleNode) => {
   const key = getKeyByCoord(genRenderPath(fiberNode), handleNode)
 
   return key2Id(key)

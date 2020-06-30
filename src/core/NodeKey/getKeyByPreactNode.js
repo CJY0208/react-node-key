@@ -40,7 +40,7 @@ const getKeyByCoord = (nodes, handleNode) =>
     .filter(Boolean)
     .join('|')
 
-const getKeyByNode = (node, handleNode = defaultNodeHandler) => {
+const getKeyByNode = (node, handleNode) => {
   const key = getKeyByCoord(genRenderPath(node), handleNode)
 
   return key2Id(key)
