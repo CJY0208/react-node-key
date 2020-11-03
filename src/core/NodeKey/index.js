@@ -16,7 +16,8 @@ export default class NodeKey extends Component {
   key = null
   genKey = (onHandleNode) => {
     if (!type) {
-      if (this._reactInternalFiber) {
+      // _reactInternals 为 React v17 fiberNode 节点字段
+      if (this._reactInternalFiber || this._reactInternals) {
         type = 'React'
       }
 
@@ -32,7 +33,8 @@ export default class NodeKey extends Component {
         break
       }
       case 'React': {
-        this.key = getKeyByFiberNode(this._reactInternalFiber, onHandleNode)
+        const fiberNode = this._reactInternalFiber || this._reactInternals
+        this.key = getKeyByFiberNode(fiberNode, onHandleNode)
         break
       }
       default: {
