@@ -1,5 +1,6 @@
-import { getKey2Id } from '../../helpers'
 import { isString, isFunction, get, run } from 'szfe-tools'
+
+import { getKey2Id } from '../../helpers'
 
 const isArrReg = /^iAr/
 

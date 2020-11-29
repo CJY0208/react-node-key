@@ -12,8 +12,7 @@ export default [
       name: 'ReactNodeKey',
       exports: 'named',
     },
-    external: (name) =>
-      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
+    external: (name) => name === 'react' || /szfe-tools/.test(name),
     plugins: [
       resolve(),
       babel({
@@ -31,8 +30,7 @@ export default [
       exports: 'named',
       sourcemap: true,
     },
-    external: (name) =>
-      name === 'react' || /core-js/.test(name) || /szfe-tools/.test(name),
+    external: (name) => name === 'react' || /szfe-tools/.test(name),
     plugins: [
       resolve(),
       babel({
