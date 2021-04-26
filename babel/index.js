@@ -82,8 +82,7 @@ module.exports = function ({ types: t, template, env: getEnv }) {
             }
           })
 
-          const uuidName =
-            env !== 'production' || isArrayElement || hasKey ? '_nk' : 'key'
+          const uuidName = '_nk'
 
           node.attributes = nodeKeyIgnore
             ? attributes
