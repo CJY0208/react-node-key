@@ -15,7 +15,7 @@ const genRenderPath = (node) =>
 const getNodeId = (fiberNode) => {
   // FIXME: 使用 index 作为 Y 坐标是十分不可靠的行为，待想出更好的法子替代
   const id = get(fiberNode, 'key') || fiberNode.index
-  const nodeKey = get(fiberNode, 'pendingProps._nk')
+  const nodeKey = get(fiberNode, 'memoizedProps._nk') || get(fiberNode, 'pendingProps._nk')
   const isArray = isString(nodeKey) && isArrReg.test(nodeKey)
 
   return isArray ? `${nodeKey}.${id}` : nodeKey || id
