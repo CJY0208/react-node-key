@@ -1,6 +1,6 @@
 {
   "name": "react-node-key",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Automatic key-marked for React nodes, generate an unique identifier by render location",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   "files": [
     "lib",
     "babel",
+    "vite",
     "index.d.ts",
     "index.js",
     "package.json",
