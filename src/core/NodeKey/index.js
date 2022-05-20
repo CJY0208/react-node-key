@@ -10,6 +10,7 @@ let type
 export default class NodeKey extends Component {
   static defaultProps = {
     onHandleNode: undefined,
+    manualKey: undefined,
     prefix: '',
   }
 
@@ -46,12 +47,12 @@ export default class NodeKey extends Component {
   }
 
   render() {
-    const { children, prefix, onHandleNode } = this.props
+    const { manualKey, children, prefix, onHandleNode } = this.props
 
     return run(
       children,
       undefined,
-      `${prefix}${this.key || this.genKey(onHandleNode)}`
+      `${prefix}${manualKey, this.key || this.genKey(onHandleNode)}`
     )
   }
 }
